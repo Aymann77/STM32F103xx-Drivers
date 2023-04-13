@@ -2,76 +2,75 @@
  ******************************************************************************
  * @file           : RCC_Interface.h
  * @Author         : Mohammed Ayman Shalaby
- * @brief          : Main program body
+ * @brief          : Register File
+ * @version        : 1.0.1
  * @Date           : Apr 10, 2023
  ******************************************************************************
  * @attention
  *
  * Copyright (c) 2023 Ayman.
  * All rights reserved.
- *
- * This software is licensed under terms that can be found in the LICENSE file
- * in the root directory of this software component.
- * If no LICENSE file comes with this software, it is provided AS-IS.
- *
- ******************************************************************************
  */
+
 #ifndef RCC_RCC_INTERFACE_H_
 #define RCC_RCC_INTERFACE_H_
+/* ------------------------------------------------------------------------------------- */
 /* ------------------------------- DEFINES SECTION START ------------------------------- */
+/* ------------------------------------------------------------------------------------- */
 
 /* AHB Peripherals */
-#define SDIO_CLK    0
-#define FSMC_CLK    1
-#define CRC_CLK     2
-#define FLITF_CLK   3
-#define SRAM_CLK    4
-#define DMA2_CLK    5
-#define DMA1_CLK    6
+#define SDIO_CLK    10
+#define FSMC_CLK     8
+#define CRC_CLK      6
+#define FLITF_CLK    4
+#define SRAM_CLK     2
+#define DMA2_CLK     1
+#define DMA1_CLK     0
 
 /* APB1 Peripherals */
-#define DAC_CLK     7
-#define PWR_CLK     8
-#define BKP_CLK     9
-#define CAN_CLK    10
-#define USB_CLK    11
-#define I2C2_CLK   12
-#define I2C1_CLK   13
-#define UART5_CLK  14
-#define UART4_CLK  15
-#define USART3_CLK 16
-#define USART2_CLK 17
-#define SPI3_CLK   18
-#define SPI2_CLK   19
-#define WWDG_CLK   20
-#define TIM14_CLK  21
-#define TIM13_CLK  22
-#define TIM12_CLK  23
-#define TIM7_CLK   24
-#define TIM6_CLK   25
-#define TIM5_CLK   26
-#define TIM4_CLK   27
-#define TIM3_CLK   28
-#define TIM2_CLK   29
+#define DAC_CLK     29
+#define PWR_CLK     28
+#define BKP_CLK     27
+#define CAN_CLK     25
+#define USB_CLK     23
+#define I2C2_CLK    22
+#define I2C1_CLK    21
+#define UART5_CLK   20
+#define UART4_CLK   19
+#define USART3_CLK  18
+#define USART2_CLK  17
+#define SPI3_CLK    15
+#define SPI2_CLK    14
+#define WWDG_CLK    11
+#define TIM14_CLK    8
+#define TIM13_CLK    7
+#define TIM12_CLK    6
+#define TIM7_CLK     5
+#define TIM6_CLK     4
+#define TIM5_CLK     3
+#define TIM4_CLK     2
+#define TIM3_CLK     1
+#define TIM2_CLK     0
 
 /* ABP2 Peripherals */
-#define TIM11_CLK  30
-#define TIM10_CLK  31
-#define TIM9_CLK   32
-#define ADC3_CLK   33
-#define USART1_CLK 34
-#define TIM8_CLK   35
-#define SPI1_CLK   36
-#define TIM1_CLK   37
-#define ADC2_CLK   38
-#define ADC1_CLK   39
-#define IOPG_CLK   40
-#define IOPF_CLK   41
-#define IOPE_CLK   42
-#define IOPD_CLK   43
-#define IOPC_CLK   44
-#define IOPB_CLK   45
-#define IOPA_CLK   46
+#define TIM11_CLK   21
+#define TIM10_CLK   20
+#define TIM9_CLK    19
+#define ADC3_CLK    15
+#define USART1_CLK  14
+#define TIM8_CLK    13
+#define SPI1_CLK    12
+#define TIM1_CLK    11
+#define ADC2_CLK    10
+#define ADC1_CLK     9
+#define IOPG_CLK     8
+#define IOPF_CLK     7
+#define IOPE_CLK     6
+#define IOPD_CLK     5
+#define IOPC_CLK     4
+#define IOPB_CLK     3
+#define IOPA_CLK     2
+#define AFIO_CLK     0
 
 /* PLL SRC Options */
 #define PLL_SRC_HSE                1
@@ -96,16 +95,20 @@
 #define PLL_MUL_FACTOR_16    0b1110
 
 /* HSEConfig Struct Options */
-
 #define HSE_DIVIDE_BY_2     1
 #define HSE_DIVIDE_BY_1     0
 
 #define HSE_BYPASSED        1
 #define HSE_NOTBYPASSED     0
+
+/* ----------------------------------------------------------------------------------- */
 /* ------------------------------- DEFINES SECTION END ------------------------------- */
+/* ----------------------------------------------------------------------------------- */
 
 
+/* ----------------------------------------------------------------------------------------------------- */
 /* ------------------------------- USER DEFINED DATA TYPES SECTION START ------------------------------- */
+/* ----------------------------------------------------------------------------------------------------- */
 
 /* HSE Configurations Struct */
 typedef struct
@@ -113,8 +116,6 @@ typedef struct
 	uint8_t HSE_Divider ;
 	uint8_t HSE_ByPass ;
 }RCC_HSEConfigStructure;
-
-
 
 
 /* Erorr Status Enum */
@@ -149,12 +150,16 @@ typedef enum
 
 }RCC_Clk_Status;
 
+/* ----------------------------------------------------------------------------------------------------- */
 /* ------------------------------- USER DEFINED DATA TYPES SECTION END  ------------------------------- */
+/* ----------------------------------------------------------------------------------------------------- */
+
 
 
 /* ---------------------------------------------------------------------------------------- */
 /* ------------------------------- PROTOTYPES SECTION START ------------------------------- */
 /* ---------------------------------------------------------------------------------------- */
+
 
 /* ------------------------------------------------------------------------------------------------------------ */
 /* ------------------------------------------------------------------------------------------------------------ */
@@ -185,6 +190,7 @@ RCC_ErrorStatus RCC_SetClkStatus( RCC_Clk_Type Copy_eClktype , RCC_Clk_Status Co
 void RCC_SetSYSCLK( RCC_Clk_Type Copy_eClkType ) ;
 
 
+
 /* NOTE:
  *       Must Be Called While HSE is Disabled( OFF )
  */
@@ -200,6 +206,7 @@ void RCC_SetSYSCLK( RCC_Clk_Type Copy_eClkType ) ;
 /* --------------------------------------------------------------------------------------------------------------- */
 /* --------------------------------------------------------------------------------------------------------------- */
 void RCC_HSEConfig ( RCC_HSEConfigStructure * Copy_sHSEConfig ) ;
+
 
 
 /* NOTE:
@@ -314,7 +321,6 @@ RCC_ErrorStatus RCC_APB1EnableCLK ( uint8_t Copy_uint8APB1Peripheral ) ;
 
 
 
-
 /* --------------------------------------------------------------------------------------------------------------- */
 /* --------------------------------------------------------------------------------------------------------------- */
 /* ----------------      NAME     : RCC_APB1DisableCLK                			     	         ----------------- */
@@ -352,15 +358,6 @@ RCC_ErrorStatus RCC_APB1DisableCLK ( uint8_t Copy_uint8APB1Peripheral ) ;
 
 
 
-
-
-
-
-
-
-
-
-
 /* --------------------------------------------------------------------------------------------------------------- */
 /* --------------------------------------------------------------------------------------------------------------- */
 /* ----------------      NAME     : RCC_APB2EnableCLK                			     	         ----------------- */
@@ -384,11 +381,12 @@ RCC_ErrorStatus RCC_APB1DisableCLK ( uint8_t Copy_uint8APB1Peripheral ) ;
 /* ----------------                15- IOPC_CLK                                                  ----------------- */
 /* ----------------                16- IOPB_CLK                                                  ----------------- */
 /* ----------------                17- IOPA_CLK                                                  ----------------- */
+/* ----------------                18- AFIO_CLK                                                  ----------------- */
 /* ----------------                                                                              ----------------- */
 /* ----------------      RETURN   : Erorr Status                                                 ----------------- */
 /* --------------------------------------------------------------------------------------------------------------- */
 /* --------------------------------------------------------------------------------------------------------------- */
-RCC_ErrorStatus RCC_APB2EnableCLK ( uint8_t Copy_uint8Peripheral ) ;
+RCC_ErrorStatus RCC_APB2EnableCLK ( uint8_t Copy_uint8APB2Peripheral ) ;
 
 
 
@@ -415,11 +413,12 @@ RCC_ErrorStatus RCC_APB2EnableCLK ( uint8_t Copy_uint8Peripheral ) ;
 /* ----------------                15- IOPC_CLK                                                  ----------------- */
 /* ----------------                16- IOPB_CLK                                                  ----------------- */
 /* ----------------                17- IOPA_CLK                                                  ----------------- */
+/* ----------------                18- AFIO_CLK                                                  ----------------- */
 /* ----------------                                                                              ----------------- */
 /* ----------------      RETURN   : Erorr Status                                                 ----------------- */
 /* --------------------------------------------------------------------------------------------------------------- */
 /* --------------------------------------------------------------------------------------------------------------- */
-RCC_ErrorStatus RCC_APB2DisableCLK ( uint8_t Copy_uint8Peripheral ) ;
+RCC_ErrorStatus RCC_APB2DisableCLK ( uint8_t Copy_uint8APB2Peripheral ) ;
 
 
 /* ---------------------------------------------------------------------------------------- */

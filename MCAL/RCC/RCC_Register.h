@@ -3,23 +3,22 @@
  * @file           : RCC_Register.h
  * @Author         : Mohammed Ayman Shalaby
  * @brief          : Register File
+ * @version        : 1.0.1
  * @Date           : Apr 10, 2023
  ******************************************************************************
  * @attention
  *
  * Copyright (c) 2023 Ayman.
  * All rights reserved.
- *
- * This software is licensed under terms that can be found in the LICENSE file
- * in the root directory of this software component.
- * If no LICENSE file comes with this software, it is provided AS-IS.
- *
- ******************************************************************************
  */
+
+
 #ifndef RCC_RCC_REGISTER_H_
 #define RCC_RCC_REGISTER_H_
 
-/* ************************* RCC Registers Section ************************* */
+/* ------------------------------------------------------------------------- */
+/* ------------------------- RCC REGISTERS SECTION ------------------------- */
+/* ------------------------------------------------------------------------- */
 typedef struct
 {
 	uint32_t RCC_CR ;     /* Clock Control Register */
@@ -38,59 +37,61 @@ typedef struct
 RCC_Reg_t * RCC = RCC_BASE_ADD ;
 
 
-/* ************************* RCC Register's Bits ************************* */
+/* ------------------------------------------------------------------------- */
+/* --------------------------- RCC REGISTERS BITS -------------------------- */
+/* ------------------------------------------------------------------------- */
 
 /* RCC_CR Reg Bits */
-#define CR_PLLRDY      25 /* PLL Clock ready Flag */
-#define CR_PLLON       24 /* PLL Enable */
-#define CR_CSSON       19 /* Clock Security System Enable */
-#define CR_HSEBYP      18 /* HSE Clock Bypass */
-#define CR_HSERDY      17 /* HSE Clock Ready Flag */
-#define CR_HSEON       16 /* HSE Clock Enable */
-#define CR_HSICAL7     15 /* HSE Clock Clibration Bit 7 */
-#define CR_HSICAL6     14 /* HSE Clock Clibration Bit 6 */
-#define CR_HSICAL5     13 /* HSE Clock Clibration Bit 5 */
-#define CR_HSICAL4     12 /* HSE Clock Clibration Bit 4 */
-#define CR_HSICAL3     11 /* HSE Clock Clibration Bit 3 */
-#define CR_HSICAL2     10 /* HSE Clock Clibration Bit 2 */
-#define CR_HSICAL1      9 /* HSE Clock Clibration Bit 1 */
-#define CR_HSICAL0      8 /* HSE Clock Clibration Bit 0 */
-#define CR_HSITRM4      7 /* HSE Clock Trimming Bit 4 */
-#define CR_HSITRM3      6 /* HSE Clock Trimming Bit 3 */
-#define CR_HSITRM2      5 /* HSE Clock Trimming Bit 2 */
-#define CR_HSITRM1      4 /* HSE Clock Trimming Bit 1 */
-#define CR_HSITRM0      3 /* HSE Clock Trimming Bit 0 */
-#define CR_HSIRDY       1 /* HSI Clock Ready Flag */
-#define CR_HSION        0 /* HSI Clock Enable */
+#define CR_PLLRDY      25  /* PLL Clock ready Flag */
+#define CR_PLLON       24  /* PLL Enable */
+#define CR_CSSON       19  /* Clock Security System Enable */
+#define CR_HSEBYP      18  /* HSE Clock Bypass */
+#define CR_HSERDY      17  /* HSE Clock Ready Flag */
+#define CR_HSEON       16  /* HSE Clock Enable */
+#define CR_HSICAL7     15  /* HSE Clock Clibration Bit 7 */
+#define CR_HSICAL6     14  /* HSE Clock Clibration Bit 6 */
+#define CR_HSICAL5     13  /* HSE Clock Clibration Bit 5 */
+#define CR_HSICAL4     12  /* HSE Clock Clibration Bit 4 */
+#define CR_HSICAL3     11  /* HSE Clock Clibration Bit 3 */
+#define CR_HSICAL2     10  /* HSE Clock Clibration Bit 2 */
+#define CR_HSICAL1      9  /* HSE Clock Clibration Bit 1 */a
+#define CR_HSICAL0      8  /* HSE Clock Clibration Bit 0 */
+#define CR_HSITRM4      7  /* HSE Clock Trimming Bit 4 */
+#define CR_HSITRM3      6  /* HSE Clock Trimming Bit 3 */
+#define CR_HSITRM2      5  /* HSE Clock Trimming Bit 2 */
+#define CR_HSITRM1      4  /* HSE Clock Trimming Bit 1 */
+#define CR_HSITRM0      3  /* HSE Clock Trimming Bit 0 */
+#define CR_HSIRDY       1  /* HSI Clock Ready Flag */
+#define CR_HSION        0  /* HSI Clock Enable */
 
 
 /* RCC_CFGR Reg Bits */
-#define CFGR_MCO2      26 /* Microcontroller Clock Output Bit 2  */
-#define CFGR_MCO1      25 /* Microcontroller Clock Output Bit 1  */
-#define CFGR_MCO0      23 /* Microcontroller Clock Output Bit 0  */
-#define CFGR_USBPRE    22 /* USB Prescaler */
-#define CFGR_PLLMUL3   21 /* PLL Multiplication Factor Bit 3 */
-#define CFGR_PLLMUL2   20 /* PLL Multiplication Factor Bit 2 */
-#define CFGR_PLLMUL1   19 /* PLL Multiplication Factor Bit 1 */
-#define CFGR_PLLMUL0   18 /* PLL Multiplication Factor Bit 0 */
-#define CFGR_PLLXTPRE  17 /* HSE Divider for PLL Entry */
-#define CFGR_PLLSRC    16 /* PLL Entry Clock Source */
-#define CFGR_ADCPRE1   15 /* ADC Prescaler Bit 1 */
-#define CFGR_ADCPRE0   14 /* ADC Prescaler Bit 0 */
-#define CFGR_PPRE22    13 /* APB2 Prescaler Bit 2 */
-#define CFGR_PPRE21    12 /* APB2 Prescaler Bit 1 */
-#define CFGR_PPRE20    11 /* APB2 Prescaler Bit 0 */
-#define CFGR_PPRE12    10 /* APB1 Prescaler Bit 2 */
-#define CFGR_PPRE11     9 /* APB1 Prescaler Bit 1 */
-#define CFGR_PPRE10     8 /* APB1 Prescaler Bit 0 */
-#define CFGR_HPRE3      7 /* AHB Prescaler Bit 3 */
-#define CFGR_HPRE2      6 /* AHB Prescaler Bit 2 */
-#define CFGR_HPRE1      5 /* AHB Prescaler Bit 1 */
-#define CFGR_HPRE0      4 /* AHB Prescaler Bit 0 */
-#define CFGR_SWS1       3 /* System Clock Switch Status Bit 1 */
-#define CFGR_SWS0       2 /* System Clock Switch Status Bit 0 */
-#define CFGR_SW1        1 /* System Clock Switch Bit 1 */
-#define CFGR_SW0        0 /* System Clock Switch Bit 0 */
+#define CFGR_MCO2      26  /* Microcontroller Clock Output Bit 2  */
+#define CFGR_MCO1      25  /* Microcontroller Clock Output Bit 1  */
+#define CFGR_MCO0      23  /* Microcontroller Clock Output Bit 0  */
+#define CFGR_USBPRE    22  /* USB Prescaler */
+#define CFGR_PLLMUL3   21  /* PLL Multiplication Factor Bit 3 */
+#define CFGR_PLLMUL2   20  /* PLL Multiplication Factor Bit 2 */
+#define CFGR_PLLMUL1   19  /* PLL Multiplication Factor Bit 1 */
+#define CFGR_PLLMUL0   18  /* PLL Multiplication Factor Bit 0 */
+#define CFGR_PLLXTPRE  17  /* HSE Divider for PLL Entry */
+#define CFGR_PLLSRC    16  /* PLL Entry Clock Source */
+#define CFGR_ADCPRE1   15  /* ADC Prescaler Bit 1 */
+#define CFGR_ADCPRE0   14  /* ADC Prescaler Bit 0 */
+#define CFGR_PPRE22    13  /* APB2 Prescaler Bit 2 */
+#define CFGR_PPRE21    12  /* APB2 Prescaler Bit 1 */
+#define CFGR_PPRE20    11  /* APB2 Prescaler Bit 0 */
+#define CFGR_PPRE12    10  /* APB1 Prescaler Bit 2 */
+#define CFGR_PPRE11     9  /* APB1 Prescaler Bit 1 */
+#define CFGR_PPRE10     8  /* APB1 Prescaler Bit 0 */
+#define CFGR_HPRE3      7  /* AHB Prescaler Bit 3 */
+#define CFGR_HPRE2      6  /* AHB Prescaler Bit 2 */
+#define CFGR_HPRE1      5  /* AHB Prescaler Bit 1 */
+#define CFGR_HPRE0      4  /* AHB Prescaler Bit 0 */
+#define CFGR_SWS1       3  /* System Clock Switch Status Bit 1 */
+#define CFGR_SWS0       2  /* System Clock Switch Status Bit 0 */
+#define CFGR_SW1        1  /* System Clock Switch Bit 1 */
+#define CFGR_SW0        0  /* System Clock Switch Bit 0 */
 
 /* RCC_AHBENR */
 #define AHBENR_SDIOEN    10
@@ -119,6 +120,7 @@ RCC_Reg_t * RCC = RCC_BASE_ADD ;
 #define APB2ENR_IOPCEN    4
 #define APB2ENR_IOPBEN    3
 #define APB2ENR_IOPAEN    2
+#define APB2ENR_AFIOEN    0
 
 
 /* RCC_APB1ENR */
@@ -145,8 +147,5 @@ RCC_Reg_t * RCC = RCC_BASE_ADD ;
 #define APB1ENR_TIM4EN    2
 #define APB1ENR_TIM3EN    1
 #define APB1ENR_TIM2EN    0
-
-
-
 
 #endif /* RCC_RCC_REGISTER_H_ */
