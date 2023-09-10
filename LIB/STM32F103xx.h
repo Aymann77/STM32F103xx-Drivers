@@ -32,6 +32,8 @@
 #define USART2_BASE_ADDRESS 0x40004400UL
 #define USART3_BASE_ADDRESS 0x40004800UL
 
+#define SPI2_BASE_ADDRESS  0x40003800UL
+
 /* ---------------------------------------------------------------------------------------------- */
 /* ------------------------------- APB2 PERIPHERAL BASE ADDRESSES ------------------------------- */
 /* ---------------------------------------------------------------------------------------------- */
@@ -42,6 +44,8 @@
 #define GPIOE_BASE_ADDRESS 0x40011800UL
 
 #define USART1_BASE_ADDRESS 0x40013800UL
+
+#define SPI1_BASE_ADDRESS 0x40013000UL
 
 /* ------------------------------------------------------------------------------------------------------------- */
 /* ------------------------------- CORTEX-M3 INTERNAL PERIPHERALS BASE ADDRESSES ------------------------------- */
@@ -299,5 +303,79 @@ typedef enum
 	GT = 8	 /* Guard time value */
 
 } USART_GTPR_BITS_t;
+
+
+/* ------------------------------------------------------------------------------------------------- */
+/* ------------------------------- SPI REGISTERS Definition Structure ------------------------------ */
+/* ------------------------------------------------------------------------------------------------- */
+
+typedef struct
+{
+	volatile uint16_t CR1; /* SPI Control Register 1 */
+	uint16_t RESERVED0;
+	volatile uint16_t CR2; /* SPI Control Register 2 */
+	uint16_t RESERVED1;
+	volatile uint16_t SR; /* SPI Status Register */
+	uint16_t RESERVED2;
+	volatile uint16_t DR; /* SPI Data Register */
+	uint16_t RESERVED3;
+	volatile uint16_t CRCPR; /* SPI CRC Polynomial Register */
+	uint16_t RESERVED4;
+	volatile uint16_t RXCRCR; /* SPI RX CRC Register */
+	uint16_t RESERVED5;
+	volatile uint16_t TXCRCR; /* SPI TX CRC Register */
+	uint16_t RESERVED6;
+	volatile uint16_t I2SCFGR; /* SPI_I2S Configuration Register */
+	uint16_t RESERVED7;
+	volatile uint16_t I2SPR; /* SPI_I2S Prescaler Register */
+	uint16_t RESERVED8;
+} SPI_RegDef_t;
+
+/* ----------------------------------------------------------------------------------------- */
+/* ------------------------------- SPI Peripheral Definition ------------------------------- */
+/* ----------------------------------------------------------------------------------------- */
+#define SPI1 ((SPI_RegDef_t *)SPI1_BASE_ADDRESS)
+#define SPI2 ((SPI_RegDef_t *)SPI2_BASE_ADDRESS)
+
+
+/* ----------------------------------------------------------------------------------- */
+/* ------------------------------- SPI REGISTERS' Bits ------------------------------- */
+/* ----------------------------------------------------------------------------------- */
+
+typedef enum
+{
+	SPI_CPHA = 0,	  /* Clock Phase */
+	SPI_CPOL = 1,	  /* Clock Polarity */
+	SPI_MSTR = 2,	  /* Master Selection */
+	SPI_BR = 3,		  /* Baud Rate Control */
+	SPI_SPE = 6,	  /* SPI Enable */
+	SPI_LSBFIRST = 7, /* Direction */
+	SPI_SSI = 8,	  /* Internal Slave Select */
+	SPI_SSM = 9,	  /* Software Slave Management */
+	SPI_RXONLY = 10,  /* Receive Only */
+	SPI_DFF = 11,	  /* Data Frame Format */
+	SPI_CRCNEXT = 12, /* CRC Transfer Next */
+	SPI_CRCEN = 13,	  /* Hardware CRC Calculation Enable */
+	SPI_BIDIOE = 14,  /* Output Enable in Bidirectional Mode */
+	SPI_BIDIMODE = 15 /* Bidirectional Data Mode Enable */
+
+} SPI_CR1_BITS_t;
+
+typedef enum
+{
+	SPI_RXDMAEN = 0, /* Rx Buffer DMA Enable */
+	SPI_TXDMAEN = 1, /* Tx Buffer DMA Enable */
+	SPI_SSOE = 2,	 /* SS Output Enable */
+	SPI_FRF = 4,	 /* Frame Format */
+	SPI_ERRIE = 5,	 /* Error Interrupt Enable */
+	SPI_RXNEIE = 6,	 /* RX Buffer Not Empty Interrupt Enable */
+	SPI_TXEIE = 7,	 /* Tx Buffer Empty Interrupt Enable */
+
+} SPI_CR2_BITS_t;
+
+typedef enum
+{
+	SPI_CHSIDE = 2, /* Channel Side */
+} SPI_SR_BITS_t;
 
 #endif /* STM32F103XX_H_ */
