@@ -66,8 +66,6 @@ typedef struct
 
 void SYSTICK_Delayms(uint32_t Copy_u32TimeInMillis);
 
-
-
 /**
  * @fn			                   		 : SYSTICK_Delayus
  * @brief		                    	 : Fuction That Makes Delay in Software Based on Passed Number of MicroSeconds
@@ -76,5 +74,38 @@ void SYSTICK_Delayms(uint32_t Copy_u32TimeInMillis);
  **/
 
 void SYSTICK_Delayus(uint32_t Copy_u32TimeInMicroSeconds);
+
+/**
+ * @fn   				 : SYSTICK_vSetIntervalSingle
+ * @brief  				 : Function that Calls the Required User App Function after the Ticks is Passed is Finished
+ *
+ * @param Copy_u32Ticks  : uint32_t Variable to Hold Tick To Wait For
+ * @param pvCallBackFunc : Function Required to Be Called After Ticks Provided Finish
+ */
+void SYSTICK_vSetIntervalSingle( uint32_t Copy_u32Ticks , void(*pvCallBackFunc)(void) ) ;
+
+/**
+ * @fn   				 : SYSTICK_vSetPeriodicInterval
+ * @brief  				 : Function that Calls the Required User App Function Every Ticks Passed Finish
+ *
+ * @param Copy_u32Ticks  : uint32_t Variable to Hold Ticks To Wait For
+ * @param pvCallBackFunc : Function Required to Be Called After Ticks Provided Finish
+ */
+void SYSTICK_vSetPeriodicInterval( uint32_t Copy_u32Ticks , void(*pvCallBackFunc)(void) ) ;
+
+/**
+ * @fn   				 : SYSTICK_vStopInterval
+ * @brief  				 : Function that Stop the Running Periodic Interval
+ *
+ */
+void SYSTICK_vStopInterval( void );
+
+/**
+ * @fn 		: SYSTICK_u32GetElapsedTime
+ * @brief   : Function that gets the total Elapsed Time in the form of ticks which is the Load Value Minus the Current Value
+ *
+ * @return  : Total Elapsed Times in the Form of Ticks
+ */
+uint32_t SYSTICK_u32GetElapsedTime(void);
 
 #endif /* SYSTICK_INTERFACE_H_ */
