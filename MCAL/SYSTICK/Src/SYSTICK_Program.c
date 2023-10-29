@@ -58,6 +58,7 @@ STK_MOD_t SYSTICK_MODE = STK_MOD_NONE  ;
  * @retval		                    : VOID
  * @note	                        : -> IN SYSTICK_CLK_AHB Maximum Delay is 2000ms ( 2 Seconds )
  *                                    -> IN SYSTICK_CLK_AHB_BY8 Maximum Delay is 16000ms ( 16 Seconds )
+ *                                   !< These Two Rules Occur When Using 8MHZ Clock Only , Rules May differ If You Change the Clock >!
  **/
 
 void SYSTICK_Delayms(uint32_t Copy_u32TimeInMillis)
@@ -68,11 +69,19 @@ void SYSTICK_Delayms(uint32_t Copy_u32TimeInMillis)
 	/* Check on TIMER_CLK  */
 	if( SYSTICK_TIMER_CONFIG.CLK == SYSTICK_AHB )
 	{
-		RELOAD_Value = ( Copy_u32TimeInMillis * 1000UL ) / AHB_TICK_TIME ;
+		/* Set Reload Value */
+		RELOAD_Value = ( Copy_u32TimeInMillis ) / ( _10POW3 * AHB_TICK_TIME ) ;
+
+		/* Set Clock Source */
+		( SYSTICK->SYST_CSR ) |= ( 1 << CSR_CLKSOURCE ) ;
 	}
 	else if( SYSTICK_TIMER_CONFIG.CLK == SYSTICK_AHB_BY8 )
 	{
-		RELOAD_Value = ( Copy_u32TimeInMillis * 1000UL ) / AHB_BY8_TICK_TIME ;
+		/* Set Reload Value */
+		RELOAD_Value = ( Copy_u32TimeInMillis ) / ( _10POW3 * AHB_BY8_TICK_TIME ) ;
+
+		/* Set Clock Source */
+		( SYSTICK->SYST_CSR ) &= ( ~ ( 1 << CSR_CLKSOURCE ) ) ;
 	}
 
 	/* Setting Reload Value */
@@ -81,13 +90,8 @@ void SYSTICK_Delayms(uint32_t Copy_u32TimeInMillis)
 	/* Clear Current */
 	( SYSTICK->SYST_CVR ) = 0 ;
 
-	/* Set Exception */
-	( SYSTICK->SYST_CSR ) &= ~(1<<CSR_TICKINT) ;
-	( SYSTICK->SYST_CSR ) |= ( ( SYSTICK_TIMER_CONFIG.Exception ) << CSR_TICKINT ) ;
-
-	/* Set Clock Source */
-	( SYSTICK->SYST_CSR ) &= ~(1<<CSR_CLKSOURCE) ;
-	( SYSTICK->SYST_CSR ) |= ( ( SYSTICK_TIMER_CONFIG.CLK ) << CSR_CLKSOURCE ) ;
+	/* Disable Exception For Busy Waiting */
+	( SYSTICK->SYST_CSR ) &= ( ~ ( 1 << CSR_TICKINT ) ) ;
 
 	/* Enable Timer */
 	( SYSTICK->SYST_CSR ) |= ( 1 << CSR_ENABLE ) ;
@@ -116,11 +120,19 @@ void SYSTICK_Delayus(uint32_t Copy_u32TimeInMicroSeconds)
 	/* Check on TIMER_CLK  */
 	if( SYSTICK_TIMER_CONFIG.CLK == SYSTICK_AHB )
 	{
-		RELOAD_Value = ( Copy_u32TimeInMicroSeconds  / AHB_TICK_TIME ) ;
+		/* Set Reload Value */
+		RELOAD_Value = ( Copy_u32TimeInMicroSeconds )  / ( _10POW6 * AHB_TICK_TIME )  ;
+
+		/* Set Clock Source */
+		( SYSTICK->SYST_CSR ) |= ( 1 << CSR_CLKSOURCE ) ;
 	}
 	else if( SYSTICK_TIMER_CONFIG.CLK == SYSTICK_AHB_BY8 )
 	{
-		RELOAD_Value = ( Copy_u32TimeInMicroSeconds  / AHB_BY8_TICK_TIME ) ;
+		/* Set Reload Value */
+		RELOAD_Value = ( Copy_u32TimeInMicroSeconds )  / ( _10POW6 * AHB_BY8_TICK_TIME ) ;
+
+		/* Set Clock Source */
+		( SYSTICK->SYST_CSR ) &= ( ~ ( 1 << CSR_CLKSOURCE ) ) ;
 	}
 
 	/* Setting Reload Value */
@@ -129,13 +141,8 @@ void SYSTICK_Delayus(uint32_t Copy_u32TimeInMicroSeconds)
 	/* Clear Current */
 	( SYSTICK->SYST_CVR ) = 0 ;
 
-	/* Set Exception */
-	( SYSTICK->SYST_CSR ) &= ~(1<<CSR_TICKINT) ;
-	( SYSTICK->SYST_CSR ) |= ( ( SYSTICK_TIMER_CONFIG.Exception ) << CSR_TICKINT ) ;
-
-	/* Set Clock Source */
-	( SYSTICK->SYST_CSR ) &= ~(1<<CSR_CLKSOURCE) ;
-	( SYSTICK->SYST_CSR ) |= ( ( SYSTICK_TIMER_CONFIG.CLK ) << CSR_CLKSOURCE ) ;
+	/* Disable Exception For Busy Waiting */
+	( SYSTICK->SYST_CSR ) &= ( ~ ( 1 << CSR_TICKINT ) ) ;
 
 	/* Enable Timer */
 	( SYSTICK->SYST_CSR ) |= ( 1 << CSR_ENABLE ) ;
@@ -145,7 +152,6 @@ void SYSTICK_Delayus(uint32_t Copy_u32TimeInMicroSeconds)
 
 	/* Disable Timer */
 	( SYSTICK->SYST_CSR ) &= ~( 1 << CSR_ENABLE ) ;
-
 }
 
 /**
@@ -179,11 +185,12 @@ void SYSTICK_vSetIntervalSingle( uint32_t Copy_u32Ticks , void(*pvCallBackFunc)(
 	/* Assign MOde */
 	SYSTICK_MODE = STK_MOD_SINGLE_INTERVAL ;
 
+	/* Enable Systick Exception */
+	SYSTICK->SYST_CSR |= (1<<CSR_TICKINT) ;
+
 	/* Start Timer */
 	SYSTICK->SYST_CSR |= (1<<CSR_ENABLE) ;
 
-	/* Enable Systick Exception */
-	SYSTICK->SYST_CSR |= (1<<CSR_TICKINT) ;
 }
 
 /**
@@ -220,11 +227,11 @@ void SYSTICK_vSetPeriodicInterval( uint32_t Copy_u32Ticks , void(*pvCallBackFunc
 	/* Assign MOde */
 	SYSTICK_MODE = STK_MOD_PERIODIC_INTERVAL ;
 
-	/* Start Timer */
-	SYSTICK->SYST_CSR |= (1<<CSR_ENABLE) ;
-
 	/* Enable Systick Exception */
 	SYSTICK->SYST_CSR |= (1<<CSR_TICKINT) ;
+
+	/* Start Timer */
+	SYSTICK->SYST_CSR |= (1<<CSR_ENABLE) ;
 }
 
 /**
@@ -240,21 +247,99 @@ void SYSTICK_vStopInterval( void )
 	/* Disable Timer */
 	SYSTICK->SYST_CSR &= (~(1<<CSR_ENABLE)) ;
 
+	/* Clear Current */
+	( SYSTICK->SYST_CVR ) = 0 ;
+
 }
 
 /**
  * @fn 		: SYSTICK_u32GetElapsedTime
- * @brief   : Function that gets the total Elapsed Time in the form of ticks which is the Load Value Minus the Current Value
+ * @brief   : Function that gets the total Elapsed Time in the form of MilliSeconds which is the Load Value Minus the Current Value
  *
- * @return  : Total Elapsed Times in the Form of Ticks
+ * @return  : Total Elapsed Time in the Form of MilliSeconds
  */
-uint32_t SYSTICK_u32GetElapsedTime(void)
+uint32_t SYSTICK_u32GetElapsedTimems(void)
 {
-	uint32_t Local_u32ElapsedTicks = 0 ;
+	uint32_t Local_u32ElapsedTime ;
 
-	Local_u32ElapsedTicks = ( ( SYSTICK->SYST_RVR ) - ( SYSTICK->SYST_CVR ) ) ;
+	float Local_f32TickTime ;
 
-	return Local_u32ElapsedTicks ;
+	if( SYSTICK_TIMER_CONFIG.CLK == SYSTICK_AHB )
+	{
+		Local_f32TickTime = AHB_TICK_TIME ;
+	}
+	else if( SYSTICK_TIMER_CONFIG.CLK == SYSTICK_AHB_BY8 )
+	{
+		Local_f32TickTime = AHB_BY8_TICK_TIME ;
+	}
+
+	Local_u32ElapsedTime = ( ( ( SYSTICK->SYST_RVR ) - ( SYSTICK->SYST_CVR ) ) * Local_f32TickTime  * _10POW3 ) ;
+
+	return Local_u32ElapsedTime ;
+}
+
+/**
+ * @fn 		: SYSTICK_u32GetElapsedTimeus
+ * @brief   : Function that gets the total Elapsed Time in the form of MicroSeconds which is the Load Value Minus the Current Value
+ *
+ * @return  : Total Elapsed Time in the Form of MicroSeconds
+ */
+uint32_t SYSTICK_u32GetElapsedTimeus (void)
+{
+	uint32_t Local_u32ElapsedTime  ;
+
+	float Local_f32TickTime ;
+
+	if( SYSTICK_TIMER_CONFIG.CLK == SYSTICK_AHB )
+	{
+		Local_f32TickTime = AHB_TICK_TIME ;
+	}
+	else if( SYSTICK_TIMER_CONFIG.CLK == SYSTICK_AHB_BY8 )
+	{
+		Local_f32TickTime = AHB_BY8_TICK_TIME ;
+	}
+
+	Local_u32ElapsedTime = ( ( ( SYSTICK->SYST_RVR ) - ( SYSTICK->SYST_CVR ) ) * Local_f32TickTime  * _10POW6 ) ;
+
+	return Local_u32ElapsedTime ;
+}
+
+/**
+ * @fn 		: SYSTICK_u32GetRemainingTimems
+ * @brief   : Function that gets The Remaining Time in the Form of MilliSeconds whick is The Current Value
+ *
+ * @return  : Total Remaining Time in the Form of MilliSeconds
+ */
+uint32_t SYSTICK_u32GetRemainingTimems (void)
+{
+	uint32_t Local_u32RemainingTime = 0 ;
+
+	float Local_f32TickTime ;
+
+	Local_f32TickTime = ( SYSTICK_TIMER_CONFIG.CLK == SYSTICK_AHB )?( AHB_TICK_TIME ):( AHB_BY8_TICK_TIME ) ;
+
+	Local_u32RemainingTime = ( ( SYSTICK->SYST_CVR ) * Local_f32TickTime * _10POW3 ) ;
+
+	return Local_u32RemainingTime ;
+}
+
+/**
+ * @fn 		: SYSTICK_u32GetRemainingTimeus
+ * @brief   : Function that gets The Remaining Time in the Form of MicroSeconds whick is The Current Value
+ *
+ * @return  : Total Remaining Time in the Form of MicroSeconds
+ */
+uint32_t SYSTICK_u32GetRemainingTimeus (void)
+{
+	uint32_t Local_u32RemainingTime = 0 ;
+
+	float Local_f32TickTime ;
+
+	Local_f32TickTime = ( SYSTICK_TIMER_CONFIG.CLK == SYSTICK_AHB )?( AHB_TICK_TIME ):( AHB_BY8_TICK_TIME ) ;
+
+	Local_u32RemainingTime = ( ( SYSTICK->SYST_CVR ) * Local_f32TickTime * _10POW6 ) ;
+
+	return Local_u32RemainingTime ;
 }
 
 /*==============================================================================================================================================
@@ -277,6 +362,9 @@ void SysTick_Handler(void)
 		/* Clear */
 		SYSTICK_MODE = STK_MOD_NONE ;
 		SYSTICK_CALL_BACK_PTR_TO_FUNC = NULL ;
+
+		/* Clear Current */
+		( SYSTICK->SYST_CVR ) = 0 ;
 	}
 	/* Periodic Interval Mode */
 	else if( SYSTICK_MODE == STK_MOD_PERIODIC_INTERVAL )
@@ -286,6 +374,9 @@ void SysTick_Handler(void)
 
 		/* Invoke the CAll Back Function */
 		SYSTICK_CALL_BACK_PTR_TO_FUNC(  );
+
+		/* Clear Current */
+		( SYSTICK->SYST_CVR ) = 0 ;
 
 		/* Reload the Load Register */
 		SYSTICK->SYST_CVR = STK_PeriodicValue ;

@@ -20,19 +20,6 @@
  * ====================================================================== */
 
 /* *************
- *  @SYSTICK_EXCEPTION_t
- *
- *
- **/
-
-typedef enum
-{
-    DISABLE_SYSTICK_EXCEPTION = 0,
-    ENABLE_SYSTICK_EXCEPTION
-} SYSTICK_EXCEPTION_t;
-
-
-/* *************
  *  @SYSTICK_CLK_SOURCE_t
  *
  *
@@ -51,8 +38,8 @@ typedef enum
 /* Link Time Configuration */
 typedef struct
 {
-    SYSTICK_EXCEPTION_t Exception;
     SYSTICK_CLK_SOURCE_t CLK;
+    uint32_t CPU_FREQUENCY;
 } SYSTICK_CONFIG_t;
 
 /**
@@ -62,6 +49,7 @@ typedef struct
  * @retval		                    : VOID
  * @note	                        : -> IN SYSTICK_CLK_AHB Maximum Delay is 2000ms ( 2 Seconds )
  *                                    -> IN SYSTICK_CLK_AHB_BY8 Maximum Delay is 16000ms ( 16 Seconds )
+ *                                   !< These Two Rules Occur When Using 8MHZ Clock Only , Rules May differ If You Change the Clock >!
  **/
 
 void SYSTICK_Delayms(uint32_t Copy_u32TimeInMillis);
@@ -102,10 +90,34 @@ void SYSTICK_vStopInterval( void );
 
 /**
  * @fn 		: SYSTICK_u32GetElapsedTime
- * @brief   : Function that gets the total Elapsed Time in the form of ticks which is the Load Value Minus the Current Value
+ * @brief   : Function that gets the total Elapsed Time in the form of MilliSeconds which is the Load Value Minus the Current Value
  *
- * @return  : Total Elapsed Times in the Form of Ticks
+ * @return  : Total Elapsed Time in the Form of MilliSeconds
  */
-uint32_t SYSTICK_u32GetElapsedTime(void);
+uint32_t SYSTICK_u32GetElapsedTimems(void);
+
+/**
+ * @fn 		: SYSTICK_u32GetElapsedTimeus
+ * @brief   : Function that gets the total Elapsed Time in the form of MicroSeconds which is the Load Value Minus the Current Value
+ *
+ * @return  : Total Elapsed Time in the Form of MicroSeconds
+ */
+uint32_t SYSTICK_u32GetElapsedTimeus (void);
+
+/**
+ * @fn 		: SYSTICK_u32GetRemainingTimems
+ * @brief   : Function that gets The Remaining Time in the Form of MilliSeconds whick is The Current Value
+ *
+ * @return  : Total Remaining Time in the Form of MilliSeconds
+ */
+uint32_t SYSTICK_u32GetRemainingTimems (void) ;
+
+/**
+ * @fn 		: SYSTICK_u32GetRemainingTimeus
+ * @brief   : Function that gets The Remaining Time in the Form of MicroSeconds whick is The Current Value
+ *
+ * @return  : Total Remaining Time in the Form of MicroSeconds
+ */
+uint32_t SYSTICK_u32GetRemainingTimeus (void) ;
 
 #endif /* SYSTICK_INTERFACE_H_ */
