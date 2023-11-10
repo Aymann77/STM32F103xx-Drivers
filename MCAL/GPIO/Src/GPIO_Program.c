@@ -18,8 +18,8 @@
  *==============================================================================================================================================*/
 #include <stdint.h>
 
-#include "../LIB/STM32F103xx.h"
-#include "../LIB/ErrType.h"
+#include "../../../LIB/STM32F103xx.h"
+#include "../../../LIB/ErrType.h"
 
 #include "../Inc/GPIO_Interface.h"
 #include "../Inc/GPIO_Private.h"
