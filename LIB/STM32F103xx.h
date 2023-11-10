@@ -20,6 +20,7 @@
 /* ------------------------------- MACROS ------------------------------- */
 /* ---------------------------------------------------------------------- */
 #define NULL ((void *)0)
+#define _vo	 volatile
 
 /* --------------------------------------------------------------------------------------------- */
 /* ------------------------------- AHB PERIPHERAL BASE ADDRESSES ------------------------------- */
@@ -33,6 +34,9 @@
 #define USART3_BASE_ADDRESS 0x40004800UL
 
 #define SPI2_BASE_ADDRESS  0x40003800UL
+
+#define I2C1_BASE_ADDRESS  0x40005400UL
+#define I2C2_BASE_ADDRESS  0x40005800UL
 
 /* ---------------------------------------------------------------------------------------------- */
 /* ------------------------------- APB2 PERIPHERAL BASE ADDRESSES ------------------------------- */
@@ -377,5 +381,104 @@ typedef enum
 {
 	SPI_CHSIDE = 2, /* Channel Side */
 } SPI_SR_BITS_t;
+
+/* ------------------------------------------------------------------------------------------------- */
+/* ------------------------------- I2C REGISTERS Definition Structure ------------------------------ */
+/* ------------------------------------------------------------------------------------------------- */
+
+typedef struct
+{
+	_vo uint16_t I2C_CR1  	; /*!< I2C CONTROL REGISTER 1 		!>*/
+		uint16_t RESERVED0  ;
+	_vo uint16_t I2C_CR2  	; /*!< I2C CONTROL REGISTER 2 		!>*/
+		uint16_t RESERVED1  ;
+	_vo uint16_t I2C_OAR1 	; /*!< I2C OWN ADDRESS REGISTER 1 	!>*/
+		uint16_t RESERVED2  ;
+	_vo uint8_t I2C_OAR2  	; /*!< I2C OWN ADDRESS REGISTER 2 	!>*/
+		uint8_t RESERVED3[3];
+	_vo uint8_t I2C_DR    	; /*!< I2C DATA REGISTER			!>*/
+		uint8_t RESERVED4[3];
+	_vo uint16_t I2C_SR1  	; /*!< I2C STATUS REGISTER 1 		!>*/
+		uint16_t RESERVED5	;
+	_vo uint16_t I2C_SR2	; /*!< I2C STATUS REGISTER 2 		!>*/
+		uint16_t RESERVED6	;
+	_vo uint16_t I2C_CCR    ; /*!< I2C CLOCK CONTROL REGISTER	!>*/
+		uint16_t RESERVED7	;
+	_vo uint16_t I2C_TRISE  ; /*!< I2C TRISE REGISTER			!>*/
+} I2C_RegDef_t;
+
+/* ----------------------------------------------------------------------------------------- */
+/* ------------------------------- I2C Peripheral Definition ------------------------------- */
+/* ----------------------------------------------------------------------------------------- */
+#define I2C1 ((I2C_RegDef_t*)I2C1_BASE_ADDRESS)
+#define I2C2 ((I2C_RegDef_t*)I2C2_BASE_ADDRESS)
+
+/* ----------------------------------------------------------------------------------- */
+/* ------------------------------- I2C REGISTERS' Bits ------------------------------- */
+/* ----------------------------------------------------------------------------------- */
+typedef enum
+{
+	I2C_CR1_BIT_SWRST		= 15 ,     /*!< SOFTWARE RESET >!*/
+	I2C_CR1_BIT_ACK			= 10 ,     /*!< ACKNOWLEDGE ENABLE >!*/
+	I2C_CR1_BIT_STOP		=  9 ,     /*!< STOP GENERATION >!*/
+	I2C_CR1_BIT_START		=  8 ,     /*!< START GENERATION >!*/
+	I2C_CR1_BIT_NOSTRETCH  	=  7 ,     /*!< CLOCK STRETCHING DISABLE(SLAVE) >!*/
+	I2C_CR1_BIT_ENGC		=  6 ,     /*!< GENERAL CALL ENABLE >!*/
+	I2C_CR1_BIT_SMBUS		=  1 ,     /*!< SMBUS MODE >!*/
+	I2C_CR1_BIT_PE			=  0       /*!< PERIPHERAL ENABLE >!*/
+
+}I2C_CR1_BIT_t;
+
+#define I2C_CCR_BIT_F_S        15
+
+typedef enum
+{
+	I2C_CR2_BIT_LAST	= 12 ,         /*!< DMA LAST TRANSER >!*/
+	I2C_CR2_BIT_DMAEN	= 11 ,         /*!< DMA REQUESTS ENABLE >!*/
+	I2C_CR2_BIT_ITBUFEN	= 10 ,         /*!< BUFFER INTERRUPT ENABLE >!*/
+	I2C_CR2_BIT_ITEVTEN	=  9 ,         /*!< EVENT INTERRUPT ENABLE >!*/
+	I2C_CR2_BIT_ITERREN	=  8 ,         /*!< ERROR INTERRUPT ENABLE >!*/
+	I2C_CR2_BIT_FREQ	=  0           /*!< PERIPHERAL CLOCK FREQUENCY >!*/
+
+}I2C_CR2_BIT_t;
+
+typedef enum
+{
+	I2C_OAR1_BIT_ADDMODE = 15 ,		   /*!< ADDRESSING MODE >!*/
+
+}I2C_OAR1_BIT_t;
+
+typedef enum
+{
+	I2C_OAR2_BIT_ADD 	= 1 ,			/*!< ADDRESS IN DUAL ADDRESSING MODE >!*/
+	I2C_OAR2_BIT_ENDUAL = 0				/*!< DUAL ADDRESSING MODE ENABLE	 >!*/
+}I2C_OAR2_BIT_t;
+
+typedef enum
+{
+    I2C_SR1_TIMEOUT  = 14 ,  /*!< TIMEOUT ERROR >!*/
+    I2C_SR1_OVR      = 11 ,  /*!< OVERRUN/UNDERRUN >!*/
+    I2C_SR1_AF       = 10 ,  /*!< ACKNOWLEDGE FAILURE >!*/
+    I2C_SR1_ARLO     =  9 ,  /*!< ARBITRATION LOST >!*/
+    I2C_SR1_BERR     =  8 ,  /*!< BUS ERROR >!*/
+    I2C_SR1_TXE      =  7 ,  /*!< DATA REGISTER EMPTY >!*/
+    I2C_SR1_RXNE     =  6 ,  /*!< DATA REGISTER NOT EMPTY >!*/
+    I2C_SR1_STOPF    =  4 ,  /*!< STOP DETECTION >!*/
+    I2C_SR1_ADD10    =  3 ,  /*!< 10-BIT HEADER SENT >!*/
+    I2C_SR1_BTF      =  2 ,  /*!< BYTE TRANSFER FINISHED >!*/
+    I2C_SR1_ADDR     =  1 ,  /*!< ADDRESS SENT >!*/
+	I2C_SR1_SB		 =  0  	 /*!< START BIT >!*/
+
+}I2C_SR1_BIT_t;
+
+typedef enum
+{
+    I2C_SR2_DUALF    =  7 ,  /*!< DUAL FLAG	>!*/
+    I2C_SR2_GENCALL  =  4 ,  /*!< GENERAL CALL ADDRESS >!*/
+    I2C_SR2_TRA      =  2 ,  /*!< TRANSMITTER/RECEIVER >!*/
+    I2C_SR2_BUSY     =  1 ,  /*!< BUS IS BUSY >!*/
+    I2C_SR2_MSL      =  0 ,  /*!< MASTER/SLAVE >!*/
+
+}I2C_SR2_BIT_t;
 
 #endif /* STM32F103XX_H_ */
