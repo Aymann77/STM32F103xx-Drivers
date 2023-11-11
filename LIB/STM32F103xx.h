@@ -51,6 +51,7 @@
 
 #define SPI1_BASE_ADDRESS 0x40013000UL
 
+#define EXTI_BASE_ADDRESS 0x40010400UL
 /* ------------------------------------------------------------------------------------------------------------- */
 /* ------------------------------- CORTEX-M3 INTERNAL PERIPHERALS BASE ADDRESSES ------------------------------- */
 /* ------------------------------------------------------------------------------------------------------------- */
@@ -480,5 +481,25 @@ typedef enum
     I2C_SR2_MSL      =  0 ,  /*!< MASTER/SLAVE >!*/
 
 }I2C_SR2_BIT_t;
+
+/* -------------------------------------------------------------------------------------------------- */
+/* ------------------------------- EXTI REGISTERS Definition Structure ------------------------------ */
+/* -------------------------------------------------------------------------------------------------- */
+
+typedef struct
+{
+	_vo uint32_t EXTI_IMR  ; /*!< INTERRUPT MASK REGISTER			 >!*/
+	_vo uint32_t EXTI_EMR  ; /*!< EVENT MASK REGISTER 	 			 >!*/
+	_vo uint32_t EXTI_RTSR ; /*!< RISING TRIGGER SELECTION REGISTER  >!*/
+	_vo uint32_t EXTI_FTSR ; /*!< FALLING TRIGGER SELECTION REGISTER >!*/
+	_vo uint32_t EXTI_SWIER; /*!< SOFTWARE INTERRUPT EVENT REGISTER	 >!*/
+	_vo uint32_t EXTI_PR   ; /*!< PENDING REGISTER					 >!*/
+}EXTI_RegDef_t;
+
+/* ------------------------------------------------------------------------------------------ */
+/* ------------------------------- EXTI Peripheral Definition ------------------------------- */
+/* ------------------------------------------------------------------------------------------ */
+
+#define EXTI  ( ( EXTI_RegDef_t* ) EXTI_BASE_ADDRESS )
 
 #endif /* STM32F103XX_H_ */
