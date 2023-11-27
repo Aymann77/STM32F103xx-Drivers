@@ -1,15 +1,14 @@
 /*
  ******************************************************************************
  * @file           : SYSTICK_Interface.h
- * @Author         : Mohammed Ayman Shalaby
- * @brief          : Main program body
+ * @Author         : Ayman77
+ * @brief          : SYSTICK USER INTERFACE FILE
  * @Date           : May 12, 2023
  ******************************************************************************
  * @attention
  *
- * Copyright (c) 2023 Ayman.
+ * Copyright (c) 2023 Ayman .
  * All rights reserved.
- *
  ******************************************************************************
  */
 #ifndef SYSTICK_INTERFACE_H_

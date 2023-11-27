@@ -1,15 +1,14 @@
 /*
  ******************************************************************************
  * @file           : SYSTICK_Private.h
- * @Author         : Mohammed Ayman Shalaby
- * @brief          : Main program body
+ * @Author         : Ayman77
+ * @brief          : SYSTICK PROVIDER PRIVATE FILE
  * @Date           : May 12, 2023
  ******************************************************************************
  * @attention
  *
  * Copyright (c) 2023 Ayman.
  * All rights reserved.
- *
  ******************************************************************************
  */
 #ifndef SYSTICK_INC_SYSTICK_PRIVATE_H_
